@@ -95,7 +95,7 @@ namespace Palaver
             if (Framework.Manager.GetDefaultConversation(typeof (SC), Framework.Fetcher.scopeIdentifier, persist) ==
                 null)
             {
-                BeginConversation();
+                BeginConversation(persist);
             }
             return
                 Framework.Factory.GetAccessLayerClass<AC>(
