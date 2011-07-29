@@ -31,82 +31,82 @@ namespace Palaver
 
         public void BeginConversation()
         {
-            Framework.Manager.BeginDefaultConversation(typeof (SC), new List<string> {Framework.Fetcher.scopeIdentifier}, false);
+            Framework.Manager.BeginDefaultConversation(typeof(SC), new List<string> {Framework.Fetcher.scopeIdentifier}, false);
         }
 
         public void BeginConversation(bool persist)
         {
-            Framework.Manager.BeginDefaultConversation(typeof (SC), new List<string> {Framework.Fetcher.scopeIdentifier}, persist);
+            Framework.Manager.BeginDefaultConversation(typeof(SC), new List<string> {Framework.Fetcher.scopeIdentifier}, persist);
         }
 
         public string BeginConversationUnique()
         {
-            return Framework.Manager.BeginNamedConversation(typeof (SC), new List<string> {Framework.Fetcher.scopeIdentifier}, false);
+            return Framework.Manager.BeginNamedConversation(typeof(SC), new List<string> {Framework.Fetcher.scopeIdentifier}, false);
         }
 
         public string BeginConversationUnique(bool persist)
         {
-            return Framework.Manager.BeginNamedConversation(typeof (SC), new List<string> {Framework.Fetcher.scopeIdentifier}, persist);
+            return Framework.Manager.BeginNamedConversation(typeof(SC), new List<string> {Framework.Fetcher.scopeIdentifier}, persist);
         }
 
-        public bool CommitConversation()
+        public void CommitConversation()
         {
-            return Framework.Manager.CommitDefaultConversation(typeof (SC), Framework.Fetcher.scopeIdentifier, false);
+            Framework.Manager.CommitDefaultConversation(typeof(SC), Framework.Fetcher.scopeIdentifier, false);
         }
 
-        public bool CommitConversation(bool persist)
+        public void CommitConversation(bool persist)
         {
-            return Framework.Manager.CommitDefaultConversation(typeof (SC), Framework.Fetcher.scopeIdentifier, persist);
+            Framework.Manager.CommitDefaultConversation(typeof(SC), Framework.Fetcher.scopeIdentifier, persist);
         }
 
-        public bool CommitConversation(string ConversationId)
+        public void CommitConversation(string ConversationId)
         {
-            return Framework.Manager.CommitNamedConversation(ConversationId);
+            Framework.Manager.CommitNamedConversation(ConversationId);
         }
 
-        public bool CancelConversation()
+        public void CancelConversation()
         {
-            return Framework.Manager.CancelDefaultConversation(typeof (SC), Framework.Fetcher.scopeIdentifier, false);
+            Framework.Manager.CancelDefaultConversation(typeof(SC), Framework.Fetcher.scopeIdentifier, false);
         }
 
-        public bool CancelConversation(bool persist)
+        public void CancelConversation(bool persist)
         {
-            return Framework.Manager.CancelDefaultConversation(typeof (SC), Framework.Fetcher.scopeIdentifier, persist);
+            Framework.Manager.CancelDefaultConversation(typeof(SC), Framework.Fetcher.scopeIdentifier, persist);
         }
 
-        public bool CancelConversation(string ConversationId)
+        public void CancelConversation(string ConversationId)
         {
-            return Framework.Manager.CancelNamedConversation(ConversationId);
+            Framework.Manager.CancelNamedConversation(ConversationId);
         }
 
         public AC GetAccessClass<AC>()
         {
-            if (Framework.Manager.GetDefaultConversation(typeof (SC), Framework.Fetcher.scopeIdentifier, false) == null)
+            if(Framework.Manager.GetDefaultConversation(typeof(SC), Framework.Fetcher.scopeIdentifier, false) == null)
             {
                 BeginConversation();
             }
             return
                 Framework.Factory.GetAccessLayerClass<AC>(
-                    (SC) Framework.Manager.GetDefaultConversation(typeof (SC), Framework.Fetcher.scopeIdentifier, false).Context);
+                    (SC) Framework.Manager.GetDefaultConversation(typeof(SC), Framework.Fetcher.scopeIdentifier, false).Context);
         }
 
         public AC GetAccessClass<AC>(bool persist)
         {
-            if (Framework.Manager.GetDefaultConversation(typeof (SC), Framework.Fetcher.scopeIdentifier, persist) ==
-                null)
+            if(Framework.Manager.GetDefaultConversation(typeof(SC), Framework.Fetcher.scopeIdentifier, persist) ==
+               null)
             {
                 BeginConversation(persist);
             }
             return
                 Framework.Factory.GetAccessLayerClass<AC>(
                     (SC)
-                    Framework.Manager.GetDefaultConversation(typeof (SC), Framework.Fetcher.scopeIdentifier, persist).Context);
+                    Framework.Manager.GetDefaultConversation(typeof(SC), Framework.Fetcher.scopeIdentifier, persist).Context);
         }
 
         public AC GetAccessClass<AC>(string ConversationId)
         {
             C Conversation = Framework.Manager.GetNamedConversation(ConversationId);
-            if (Conversation == null)
+            if(Conversation == null)
             {
                 throw new ArgumentException("Conversation with given ID not found", "ConversationId");
             }
@@ -130,17 +130,12 @@ namespace Palaver
 
         string BeginConversationUnique(bool persist);
 
-        bool CommitConversation();
-
-        bool CommitConversation(bool persist);
-
-        bool CommitConversation(string ConversationId);
-
-        bool CancelConversation();
-
-        bool CancelConversation(bool persist);
-
-        bool CancelConversation(string ConversationId);
+        void CommitConversation();
+        void CommitConversation(bool persist);
+        void CommitConversation(string ConversationId);
+        void CancelConversation();
+        void CancelConversation(bool persist);
+        void CancelConversation(string ConversationId);
 
         AC GetAccessClass<AC>();
 

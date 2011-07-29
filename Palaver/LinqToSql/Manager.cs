@@ -19,9 +19,9 @@ namespace Palaver.LinqToSql
         /// <param name="isPersistent">Flag indicating whether or not conversation persists beyond one request.</param>
         public override void BeginDefaultConversation(Type dcType, List<string> scopeIdentifiers, bool isPersistent)
         {
-            foreach (string id in scopeIdentifiers)
+            foreach(string id in scopeIdentifiers)
             {
-                if (FindDefaultConversation(dcType, isPersistent, id) != null)
+                if(FindDefaultConversation(dcType, isPersistent, id) != null)
                 {
                     return;
                 }
@@ -70,17 +70,9 @@ namespace Palaver.LinqToSql
         /// <param name="scopeIdentifiers">Collection of valid scope identifiers for the conversation.</param>
         /// <param name="isPersistent">Flag indicating whether or not conversation persists beyond one request.</param>
         /// <returns>Flag indicating success or failure of the commit.</returns>
-        public override bool CommitDefaultConversation(Type dcType, string scopeIdentifier, bool isPersistent)
+        public override void CommitDefaultConversation(Type dcType, string scopeIdentifier, bool isPersistent)
         {
-            try
-            {
-                FindDefaultConversation(dcType, isPersistent, scopeIdentifier).Commit();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            FindDefaultConversation(dcType, isPersistent, scopeIdentifier).Commit();
         }
 
         /// <summary>
@@ -90,17 +82,9 @@ namespace Palaver.LinqToSql
         /// <param name="scopeIdentifier">Collection of valid scope identifiers for the conversation.</param>
         /// <param name="isPersistent">Flag indicating whether or not conversation persists beyond one request.</param>
         /// <returns>Flag indicating success or failure of the cancel operation.</returns>
-        public override bool CancelDefaultConversation(Type dcType, string scopeIdentifier, bool isPersistent)
+        public override void CancelDefaultConversation(Type dcType, string scopeIdentifier, bool isPersistent)
         {
-            try
-            {
-                FindDefaultConversation(dcType, isPersistent, scopeIdentifier).Cancel();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            FindDefaultConversation(dcType, isPersistent, scopeIdentifier).Cancel();
         }
 
         /// <summary>
@@ -108,17 +92,9 @@ namespace Palaver.LinqToSql
         /// </summary>
         /// <param name="name">Unique name of the conversation to be committed.</param>
         /// <returns>Flag indicating success or failure of the commit.</returns>
-        public override bool CommitNamedConversation(string name)
+        public override void CommitNamedConversation(string name)
         {
-            try
-            {
-                FindNamedConversation(name).Commit();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            FindNamedConversation(name).Commit();
         }
 
         /// <summary>
@@ -126,17 +102,9 @@ namespace Palaver.LinqToSql
         /// </summary>
         /// <param name="name">Unique name of the conversation to be cancelled.</param>
         /// <returns>Flag indicating success or failure of the cancel operation.</returns>
-        public override bool CancelNamedConversation(string name)
+        public override void CancelNamedConversation(string name)
         {
-            try
-            {
-                FindNamedConversation(name).Cancel();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            FindNamedConversation(name).Cancel();
         }
 
         /// <summary>
@@ -150,15 +118,15 @@ namespace Palaver.LinqToSql
         private Conversation CreateConversation(Type dcType, bool isPersistent, List<string> scopeIdentifiers,
                                                 bool isDefault)
         {
-            if (dcType == null)
+            if(dcType == null)
             {
                 throw new ArgumentNullException("dcType", "dcType cannot be null");
             }
-            if (!dcType.IsSubclassOf(typeof (DataContext)))
+            if(!dcType.IsSubclassOf(typeof(DataContext)))
             {
                 throw new ArgumentException("dcType must inherit from System.Data.Linq.DataContext", "dcType");
             }
-            if (scopeIdentifiers == null || scopeIdentifiers.Count <= 0)
+            if(scopeIdentifiers == null || scopeIdentifiers.Count <= 0)
             {
                 throw new ArgumentException("scopeIdentifiers must contain at least one string", "scopeIdentifiers");
             }
@@ -186,15 +154,15 @@ namespace Palaver.LinqToSql
         /// <returns></returns>
         private Conversation FindDefaultConversation(Type dcType, bool isPersistent, string scopeIdentifier)
         {
-            if (dcType == null)
+            if(dcType == null)
             {
                 throw new ArgumentNullException("dcType", "dcType cannot be null");
             }
-            if (!dcType.IsSubclassOf(typeof (DataContext)))
+            if(!dcType.IsSubclassOf(typeof(DataContext)))
             {
                 throw new ArgumentException("dcType must inherit from System.Data.Linq.DataContext", "dcType");
             }
-            if (String.IsNullOrEmpty(scopeIdentifier))
+            if(String.IsNullOrEmpty(scopeIdentifier))
             {
                 throw new ArgumentNullException("scopeIdentifier", "scopeIdentifier must contain at least one string");
             }
@@ -206,7 +174,7 @@ namespace Palaver.LinqToSql
                     cc.Context.GetType() == dcType && cc.isDefault && cc.isPersistent == isPersistent &&
                     cc.ScopeIdentifiers.Contains(scopeIdentifier));
 
-            if (c.Count > 1)
+            if(c.Count > 1)
             {
                 throw new Exception("Duplicate default conversations found");
             }
@@ -221,14 +189,14 @@ namespace Palaver.LinqToSql
         /// <returns></returns>
         private Conversation FindNamedConversation(string name)
         {
-            if (String.IsNullOrEmpty(name))
+            if(String.IsNullOrEmpty(name))
             {
                 throw new ArgumentNullException("name", "name cannot be null or empty");
             }
             List<Conversation> c;
             c = Conversations.FindAll(cc => cc.Name == name);
 
-            if (c.Count > 1)
+            if(c.Count > 1)
             {
                 throw new Exception("Duplicate named conversations found");
             }
@@ -251,9 +219,9 @@ namespace Palaver.LinqToSql
         /// </summary>
         internal void CancelAllNonPersistentConversations()
         {
-            for (int i = Conversations.Count - 1; i >= 0; i--)
+            for(int i = Conversations.Count - 1; i >= 0; i--)
             {
-                if (!Conversations[i].isPersistent) Conversations[i].Cancel();
+                if(!Conversations[i].isPersistent) Conversations[i].Cancel();
             }
         }
 
@@ -263,9 +231,9 @@ namespace Palaver.LinqToSql
         /// <param name="currentScopeIdentifier"></param>
         internal void CancelAllOutOfScopeConversations(string currentScopeIdentifier)
         {
-            for (int i = Conversations.Count - 1; i >= 0; i--)
+            for(int i = Conversations.Count - 1; i >= 0; i--)
             {
-                if (!Conversations[i].ScopeIdentifiers.Contains(currentScopeIdentifier)) Conversations[i].Cancel();
+                if(!Conversations[i].ScopeIdentifiers.Contains(currentScopeIdentifier)) Conversations[i].Cancel();
             }
         }
 
@@ -274,7 +242,7 @@ namespace Palaver.LinqToSql
         /// </summary>
         internal void CancelAllConversations()
         {
-            for (int i = Conversations.Count - 1; i >= 0; i--)
+            for(int i = Conversations.Count - 1; i >= 0; i--)
             {
                 Conversations[i].Cancel();
             }

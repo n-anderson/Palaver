@@ -61,7 +61,7 @@ namespace Palaver.Base
         /// <param name="scopeIdentifier"></param>
         /// <param name="isPersistent"></param>
         /// <returns></returns>
-        public abstract bool CommitDefaultConversation(Type dcType, string scopeIdentifier, bool isPersistent);
+        public abstract void CommitDefaultConversation(Type dcType, string scopeIdentifier, bool isPersistent);
 
         /// <summary>
         /// Cancels the default conversation specified by the parameters.
@@ -70,20 +70,20 @@ namespace Palaver.Base
         /// <param name="scopeIdentifier"></param>
         /// <param name="isPersistent"></param>
         /// <returns></returns>
-        public abstract bool CancelDefaultConversation(Type dcType, string scopeIdentifier, bool isPersistent);
+        public abstract void CancelDefaultConversation(Type dcType, string scopeIdentifier, bool isPersistent);
 
         /// <summary>
         /// Commits a named conversation.
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public abstract bool CommitNamedConversation(string name);
+        public abstract void CommitNamedConversation(string name);
 
         /// <summary>
         /// Cancels a named conversation.
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public abstract bool CancelNamedConversation(string name);
+        public abstract void CancelNamedConversation(string name);
     }
 }
