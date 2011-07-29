@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Linq;
 using System.Linq;
 using System.Linq.Dynamic;
@@ -29,7 +30,7 @@ namespace Palaver.LinqToSql
 
         public virtual E getById(PK id)
         {
-            return EntityTable.Where("@0 == @1", PrivateKeyName, id).FirstOrDefault();
+            return EntityTable.Where(String.Format("{0} == @0", PrivateKeyName), id).FirstOrDefault();
         }
 
         public virtual void Insert(E record)
