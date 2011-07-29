@@ -29,7 +29,7 @@ namespace Palaver.LinqToSql
 
         public virtual E getById(PK id)
         {
-            return EntityTable.Where("@0 = @1", PrivateKeyName, id).FirstOrDefault();
+            return EntityTable.Where("@0 == @1", PrivateKeyName, id).FirstOrDefault();
         }
 
         public virtual void Insert(E record)
