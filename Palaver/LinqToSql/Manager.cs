@@ -84,7 +84,11 @@ namespace Palaver.LinqToSql
         /// <returns>Flag indicating success or failure of the cancel operation.</returns>
         public override void CancelDefaultConversation(Type dcType, string scopeIdentifier, bool isPersistent)
         {
-            FindDefaultConversation(dcType, isPersistent, scopeIdentifier).Cancel();
+            Conversation DefaultConversation = FindDefaultConversation(dcType, isPersistent, scopeIdentifier);
+            if(DefaultConversation != null)
+            {
+                DefaultConversation.Cancel();
+            }
         }
 
         /// <summary>
